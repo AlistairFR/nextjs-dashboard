@@ -33,10 +33,10 @@ export async function createInvoice(formData: FormData) {
     `;
 
     revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
     } catch (error) {
-        console.error(error);
+        return {message: "Error creating invoice"}
     }
+    redirect('/dashboard/invoices');
 }
 
 export async function updateInvoice(formData: FormData) {
@@ -56,17 +56,18 @@ export async function updateInvoice(formData: FormData) {
     `;
 
     revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
   } catch (error) {
-    console.error(error);
+    return { message: 'Error updating invoice' };
   }
+  redirect('/dashboard/invoices');
 }
 
 export async function deleteInvoice(formData: FormData) {
+
     const id = formData.get('id')?.toString();
     try { await sql`DELETE FROM invoices WHERE id = ${id}`;
         revalidatePath('/dashboard/invoices');
     } catch (error) {
-        console.error(error);
+        return { message: 'Error deleting invoice' };
     }
   }
